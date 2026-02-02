@@ -112,7 +112,7 @@ let refuseCount = 0;
 const pleadEmojis = [
     "🥺👉👈",
     "😖💗 เปิดเถอะน้าา",
-    "😭💞 เค้าง้อแล้ว"
+    "😭💞 เค้าขอละ"
 ];
 
 function notYet() {
