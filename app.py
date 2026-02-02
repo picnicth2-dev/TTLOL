@@ -10,7 +10,7 @@ def home():
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>ถึงคนพิเศษของเค้า 💖</title>
+    <title>ถึงที่ร๊ากกของเค้า 💖</title>
     <style>
         body {
             background: radial-gradient(circle at top, #ffd6e8, #ff9acb);
@@ -61,13 +61,13 @@ def home():
 <body>
 
     <!-- ดอกไม้ -->
-    <div class="flower" style="left:10%; animation-delay:0s;">🌸</div>
-    <div class="flower" style="left:30%; animation-delay:2s;">🌷</div>
+    <div class="flower" style="left:10%; animation-delay:0s;">😘</div>
+    <div class="flower" style="left:30%; animation-delay:2s;">😍</div>
     <div class="flower" style="left:50%; animation-delay:4s;">🌺</div>
     <div class="flower" style="left:70%; animation-delay:1s;">💐</div>
     <div class="flower" style="left:90%; animation-delay:3s;">🌸</div>
 
-    <h1>💖 ถึงคนพิเศษ 💖</h1>
+    <h1>💖 ถึงที่ร๊ากของเค้า 💖</h1>
     <div id="text"></div>
 
 <script>
