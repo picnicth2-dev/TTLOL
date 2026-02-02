@@ -26,6 +26,17 @@ body {
     text-align: center;
 }
 
+/* ===== ลายเครือไม้รอบขอบ ===== */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      url("https://www.transparenttextures.com/patterns/flowers.png");
+    opacity: 0.18;
+    pointer-events: none;
+}
+
 .hidden { display: none; }
 
 button {
@@ -41,10 +52,9 @@ button {
 
 button:active { transform: scale(0.92); }
 
-/* ---------- ซองจดหมาย ---------- */
+/* ---------- ซอง ---------- */
 #envelope {
     font-size: 6em;
-    cursor: pointer;
     animation: bounce 2s infinite;
 }
 
@@ -53,10 +63,7 @@ button:active { transform: scale(0.92); }
     50% { transform: translateY(-10px); }
 }
 
-#plead {
-    font-size: 2.5em;
-    margin: 15px 0;
-}
+#plead { font-size: 2.5em; }
 
 /* ---------- Loading ---------- */
 #loading {
@@ -85,18 +92,6 @@ button:active { transform: scale(0.92); }
     max-width: 92%;
     width: 600px;
     box-shadow: 0 12px 35px rgba(255,77,136,0.3);
-    animation: showLetter 0.6s ease forwards;
-}
-
-@keyframes showLetter {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
 }
 
 #text {
@@ -106,10 +101,35 @@ button:active { transform: scale(0.92); }
     min-height: 220px;
 }
 
-/* ---------- หัวใจลอย ---------- */
-@keyframes floatUp {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-140px); opacity: 0; }
+/* ---------- ป้ายครบรอบ ---------- */
+#banner {
+    position: fixed;
+    top: 16px;
+    background: rgba(255,255,255,0.85);
+    color: #ff4d88;
+    padding: 10px 26px;
+    border-radius: 30px;
+    font-size: 1.05em;
+    box-shadow: 0 6px 20px rgba(255,77,136,0.3);
+    animation: slideDown 0.8s ease forwards;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ---------- หัวใจจาง ---------- */
+.heart-soft {
+    position: absolute;
+    font-size: 1.6em;
+    opacity: 0.4;
+    animation: floatSoft 4s linear forwards;
+}
+
+@keyframes floatSoft {
+    from { transform: translateY(0); opacity: 0.4; }
+    to { transform: translateY(-180px); opacity: 0; }
 }
 
 .credit {
@@ -124,7 +144,6 @@ button:active { transform: scale(0.92); }
 
 <body>
 
-<!-- หน้า ซอง -->
 <div id="cover">
     <div id="envelope">💌</div>
     <div id="plead"></div>
@@ -134,17 +153,13 @@ button:active { transform: scale(0.92); }
     </div>
 </div>
 
-<!-- Loading -->
 <div id="loading" class="hidden">กำลังเปิดจดหมาย… 💕</div>
 
-<!-- หน้าเว็บจริง -->
 <div id="content" class="hidden">
     <h1>💖 ถึงที่ร๊ากกของเค้า 💖</h1>
-
     <div class="letter-box">
         <div id="text"></div>
     </div>
-
     <button onclick="loveBack()">บอกรักกลับ 💕</button>
     <div class="credit">Created by Kitthiphan Janthilar</div>
 </div>
@@ -153,83 +168,76 @@ button:active { transform: scale(0.92); }
 
 <script>
 let refuseCount = 0;
+const pleadEmojis = ["🥺👉👈","😖💗 เปิดเถอะน้าา","😭💞 เค้าง้อแล้ว"];
 
-const pleadEmojis = [
-    "🥺👉👈",
-    "😖💗 เปิดเถอะน้าา",
-    "😭💞 เค้าง้อแล้ว"
-];
-
-function notYet() {
+function notYet(){
     refuseCount++;
-    const plead = document.getElementById("plead");
-    plead.innerHTML = pleadEmojis[Math.min(refuseCount-1, pleadEmojis.length-1)];
-
-    if (refuseCount >= 2) {
+    document.getElementById("plead").innerHTML =
+      pleadEmojis[Math.min(refuseCount-1,2)];
+    if(refuseCount>=2){
         document.getElementById("buttons").innerHTML =
-            '<button onclick="openLetter()">เปิด 💖</button>';
+          '<button onclick="openLetter()">เปิด 💖</button>';
     }
 }
 
-function openLetter() {
-    document.getElementById("cover").classList.add("hidden");
-    document.getElementById("loading").classList.remove("hidden");
-
-    setTimeout(() => {
-        document.getElementById("loading").classList.add("hidden");
-        document.getElementById("content").classList.remove("hidden");
+function openLetter(){
+    cover.classList.add("hidden");
+    loading.classList.remove("hidden");
+    setTimeout(()=>{
+        loading.classList.add("hidden");
+        content.classList.remove("hidden");
         typeWriter();
-    }, 2500);
+    },2500);
 }
 
-/* ---------- Typewriter ---------- */
 const message = [
-    "สวัสดีตอนเช้านะค้าบที่รัก 💕",
-    "",
-    "จำได้ไหมวันนี้วันอะไรเอ่ย…",
-    "วันครบรอบของเราไงค้าบ",
-    "วันที่ 24 กุมภาพันธ์ ครบรอบ1M 🌸",
-    "",
-    "ขอบคุณที่อยู่ข้างกันเสมอ",
-    "อยู่ด้วยกันไปนานๆ นะจุ๊บมั่ววว 💖"
+ "สวัสดีตอนเช้านะค้าบที่รัก 💕","",
+ "จำได้ไหมวันนี้วันอะไรเอ่ย…",
+ "วันครบรอบของเราไงค้าบ",
+ "วันที่ 24 กุมภาพันธ์ ครบรอบ1M 🌸","",
+ "ขอบคุณที่อยู่ข้างกันเสมอ",
+ "อยู่ด้วยกันไปนานๆ นะจุ๊บมั่ววว 💖"
 ];
 
-let line = 0, char = 0;
-const speed = 50;
-const textDiv = document.getElementById("text");
-const sound = document.getElementById("typeSound");
-sound.volume = 0.12;
+let line=0,char=0;
+const textDiv=document.getElementById("text");
+const sound=document.getElementById("typeSound");
+sound.volume=0.12;
 
-function typeWriter() {
-    if (line < message.length) {
-        if (char < message[line].length) {
-            textDiv.innerHTML += message[line].charAt(char);
-            sound.currentTime = 0;
-            sound.play();
-            char++;
-            setTimeout(typeWriter, speed);
-        } else {
-            textDiv.innerHTML += "<br>";
-            line++;
-            char = 0;
-            setTimeout(typeWriter, 400);
-        }
-    }
+function typeWriter(){
+ if(line<message.length){
+  if(char<message[line].length){
+   textDiv.innerHTML+=message[line].charAt(char++);
+   sound.currentTime=0; sound.play();
+   setTimeout(typeWriter,50);
+  } else {
+   textDiv.innerHTML+="<br>";
+   line++; char=0;
+   setTimeout(typeWriter,400);
+  }
+ } else {
+   showBanner();
+ }
 }
 
-function loveBack() {
-    for (let i = 0; i < 8; i++) {
-        const heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.style.position = "absolute";
-        heart.style.left = Math.random()*100 + "vw";
-        heart.style.bottom = "100px";
-        heart.style.fontSize = "2em";
-        heart.style.animation = "floatUp 2s ease-out forwards";
-        document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),2000);
-    }
+function showBanner(){
+ const b=document.createElement("div");
+ b.id="banner";
+ b.innerText="สุขสันต์วันครบรอบนะค้าบที่ร๊ากก 💖";
+ document.body.appendChild(b);
+
+ for(let i=0;i<8;i++){
+  const h=document.createElement("div");
+  h.className="heart-soft";
+  h.innerHTML="🤍";
+  h.style.left=Math.random()*100+"vw";
+  h.style.bottom="60px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),4000);
+ }
 }
+
+function loveBack(){ showBanner(); }
 </script>
 
 </body>
