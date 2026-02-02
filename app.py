@@ -10,122 +10,134 @@ def home():
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#ff9acb">
-<title>ถึงที่ร๊ากกของเค้า 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ถึงที่ร๊ากกของเค้า 💌</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-    }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #ffd6e8, #ff9acb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    text-align: center;
+}
 
-    body {
-        background: radial-gradient(circle at top, #ffd6e8, #ff9acb);
-        font-family: 'Segoe UI', sans-serif;
-        text-align: center;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        overflow: hidden;
-    }
+.hidden { display: none; }
 
-    h1 {
-        font-size: clamp(2.5em, 8vw, 4em);
-        color: #ff4d88;
-        margin-bottom: 20px;
-        text-shadow: 0 0 10px rgba(255,255,255,0.7);
-    }
+button {
+    padding: 14px 36px;
+    margin: 10px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 40px;
+    background: #ff4d88;
+    color: white;
+    cursor: pointer;
+}
 
-    #text {
-        font-size: clamp(1.1em, 4.5vw, 1.6em);
-        color: #7a1f4a;
-        max-width: 95%;
-        line-height: 1.7;
-        white-space: pre-line;
-        min-height: 200px;
-    }
+button:active { transform: scale(0.92); }
 
-    button {
-        margin-top: 25px;
-        padding: 14px 36px;
-        font-size: 1.1em;
-        border: none;
-        border-radius: 40px;
-        background: #ff4d88;
-        color: white;
-        cursor: pointer;
-        transition: transform 0.15s;
-    }
+/* ---------- ซองจดหมาย ---------- */
+#envelope {
+    font-size: 6em;
+    cursor: pointer;
+    animation: bounce 2s infinite;
+}
 
-    button:active {
-        transform: scale(0.92);
-    }
+@keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
 
-    .heart {
-        position: absolute;
-        font-size: 2em;
-        animation: floatUp 2s ease-out forwards;
-        pointer-events: none;
-    }
+#plead {
+    font-size: 2.5em;
+    margin: 15px 0;
+}
 
-    @keyframes floatUp {
-        from {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-        to {
-            transform: translateY(-140px) scale(1.5);
-            opacity: 0;
-        }
-    }
+/* ---------- Loading ---------- */
+#loading {
+    font-size: 2em;
+    animation: pulse 1.2s infinite;
+}
 
-    .flower {
-        position: absolute;
-        font-size: 2.2em;
-        animation: float 12s linear infinite;
-        opacity: 0.85;
-    }
+@keyframes pulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
 
-    @keyframes float {
-        from { transform: translateY(110vh) rotate(0deg); }
-        to { transform: translateY(-10vh) rotate(360deg); }
-    }
-
-    .credit {
-        position: fixed;
-        bottom: 8px;
-        width: 100%;
-        text-align: center;
-        font-size: 0.75em;
-        color: rgba(122,31,74,0.6);
-    }
+/* ---------- หน้าเว็บหลัก ---------- */
+.credit {
+    position: fixed;
+    bottom: 8px;
+    width: 100%;
+    font-size: 0.75em;
+    color: rgba(122,31,74,0.6);
+}
 </style>
 </head>
 
 <body>
 
-<!-- ดอกไม้ -->
-<div class="flower" style="left:5%; animation-delay:0s;">😘</div>
-<div class="flower" style="left:25%; animation-delay:3s;">🌹</div>
-<div class="flower" style="left:50%; animation-delay:1s;">💮</div>
-<div class="flower" style="left:75%; animation-delay:2s;">💐</div>
-<div class="flower" style="left:90%; animation-delay:4s;">🌸</div>
+<!-- หน้า ซอง -->
+<div id="cover">
+    <div id="envelope">💌</div>
+    <div id="plead"></div>
+    <div id="buttons">
+        <button onclick="openLetter()">เปิด 💖</button>
+        <button onclick="notYet()">ยังไม่เปิด 🙈</button>
+    </div>
+</div>
 
-<h1> ถึงที่ร๊ากของเค้า </h1>
-<div id="text"></div>
+<!-- Loading -->
+<div id="loading" class="hidden">กำลังเปิดจดหมาย… 💕</div>
 
-<button onclick="loveBack()">บอกรักกลับ 💕</button>
-
-<div class="credit">Created by Kitthiphan Janthilar</div>
+<!-- หน้าเว็บจริง -->
+<div id="content" class="hidden">
+    <h1>💖 ถึงที่ร๊ากของเค้า 💖</h1>
+    <div id="text"></div>
+    <button onclick="loveBack()">บอกรักกลับ 💕</button>
+    <div class="credit">Created by Kitthiphan Janthilar</div>
+</div>
 
 <audio id="typeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-keyboard-typing-1386.mp3"></audio>
 
 <script>
+let refuseCount = 0;
+
+const pleadEmojis = [
+    "🥺👉👈",
+    "😖💗 เปิดเถอะน้าา",
+    "😭💞 เค้าง้อแล้ว"
+];
+
+function notYet() {
+    refuseCount++;
+    const plead = document.getElementById("plead");
+    plead.innerHTML = pleadEmojis[Math.min(refuseCount-1, pleadEmojis.length-1)];
+
+    if (refuseCount >= 2) {
+        document.getElementById("buttons").innerHTML =
+            '<button onclick="openLetter()">เปิด 💖</button>';
+    }
+}
+
+function openLetter() {
+    document.getElementById("cover").classList.add("hidden");
+    document.getElementById("loading").classList.remove("hidden");
+
+    setTimeout(() => {
+        document.getElementById("loading").classList.add("hidden");
+        document.getElementById("content").classList.remove("hidden");
+        typeWriter();
+    }, 2500);
+}
+
+/* ---------- Typewriter ---------- */
 const message = [
     "สวัสดีตอนเช้านะค้าบที่รัก 💕",
     "",
@@ -137,8 +149,7 @@ const message = [
     "อยู่ด้วยกันไปนานๆ นะจุ๊บมั่ววว 💖"
 ];
 
-let line = 0;
-let char = 0;
+let line = 0, char = 0;
 const speed = 50;
 const textDiv = document.getElementById("text");
 const sound = document.getElementById("typeSound");
@@ -156,25 +167,32 @@ function typeWriter() {
             textDiv.innerHTML += "<br>";
             line++;
             char = 0;
-            setTimeout(typeWriter, 500);
+            setTimeout(typeWriter, 400);
         }
     }
 }
 
 function loveBack() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
         const heart = document.createElement("div");
-        heart.className = "heart";
         heart.innerHTML = "💖";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.bottom = "120px";
+        heart.style.position = "absolute";
+        heart.style.left = Math.random()*100 + "vw";
+        heart.style.bottom = "100px";
+        heart.style.fontSize = "2em";
+        heart.style.animation = "floatUp 2s ease-out forwards";
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 2000);
+        setTimeout(()=>heart.remove(),2000);
     }
 }
-
-typeWriter();
 </script>
+
+<style>
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-140px); opacity: 0; }
+}
+</style>
 
 </body>
 </html>
