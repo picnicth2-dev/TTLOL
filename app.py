@@ -62,8 +62,8 @@ def home():
 
     <!-- ดอกไม้ -->
     <div class="flower" style="left:10%; animation-delay:0s;">😘</div>
-    <div class="flower" style="left:30%; animation-delay:2s;">😍</div>
-    <div class="flower" style="left:50%; animation-delay:1s;">🌺</div>
+    <div class="flower" style="left:30%; animation-delay:2s;">🌹</div>
+    <div class="flower" style="left:50%; animation-delay:1s;">💮</div>
     <div class="flower" style="left:70%; animation-delay:1s;">💐</div>
     <div class="flower" style="left:90%; animation-delay:3s;">🌸</div>
 
