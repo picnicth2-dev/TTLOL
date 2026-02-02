@@ -70,7 +70,48 @@ button:active { transform: scale(0.92); }
     100% { opacity: 0.3; }
 }
 
-/* ---------- หน้าเว็บหลัก ---------- */
+/* ---------- กรอบจดหมาย ---------- */
+.letter-box {
+    background: repeating-linear-gradient(
+        45deg,
+        #ffe0ee,
+        #ffe0ee 10px,
+        #ffd0e6 10px,
+        #ffd0e6 20px
+    );
+    border: 4px solid #ff6fa5;
+    border-radius: 22px;
+    padding: 26px 22px;
+    max-width: 92%;
+    width: 600px;
+    box-shadow: 0 12px 35px rgba(255,77,136,0.3);
+    animation: showLetter 0.6s ease forwards;
+}
+
+@keyframes showLetter {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#text {
+    font-size: 1.25em;
+    color: #7a1f4a;
+    line-height: 1.7;
+    min-height: 220px;
+}
+
+/* ---------- หัวใจลอย ---------- */
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-140px); opacity: 0; }
+}
+
 .credit {
     position: fixed;
     bottom: 8px;
@@ -98,8 +139,12 @@ button:active { transform: scale(0.92); }
 
 <!-- หน้าเว็บจริง -->
 <div id="content" class="hidden">
-    <h1>💖 ถึงที่ร๊ากของเค้า 💖</h1>
-    <div id="text"></div>
+    <h1>💖 ถึงที่ร๊ากกของเค้า 💖</h1>
+
+    <div class="letter-box">
+        <div id="text"></div>
+    </div>
+
     <button onclick="loveBack()">บอกรักกลับ 💕</button>
     <div class="credit">Created by Kitthiphan Janthilar</div>
 </div>
@@ -112,7 +157,7 @@ let refuseCount = 0;
 const pleadEmojis = [
     "🥺👉👈",
     "😖💗 เปิดเถอะน้าา",
-    "😭💞 เค้าขอละ"
+    "😭💞 เค้าง้อแล้ว"
 ];
 
 function notYet() {
@@ -186,13 +231,6 @@ function loveBack() {
     }
 }
 </script>
-
-<style>
-@keyframes floatUp {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-140px); opacity: 0; }
-}
-</style>
 
 </body>
 </html>
