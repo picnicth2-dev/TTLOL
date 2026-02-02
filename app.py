@@ -116,7 +116,7 @@ def home():
 <div class="flower" style="left:75%; animation-delay:2s;">💐</div>
 <div class="flower" style="left:90%; animation-delay:4s;">🌸</div>
 
-<h1>💖 ถึงที่ร๊ากของเค้า 💖</h1>
+<h1> ถึงที่ร๊ากของเค้า </h1>
 <div id="text"></div>
 
 <button onclick="loveBack()">บอกรักกลับ 💕</button>
