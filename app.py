@@ -13,26 +13,43 @@ def home():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ถึงที่ร๊ากกของเค้า 💌</title>
 
+<!-- แก้ vh มือถือ -->
+<script>
+function fixVH() {
+  document.documentElement.style.height = window.innerHeight + "px";
+}
+window.addEventListener("resize", fixVH);
+window.addEventListener("orientationchange", fixVH);
+fixVH();
+</script>
+
 <style>
-body {
+/* กันเลื่อน + กันบัคมือถือ */
+html, body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: none;
+}
+
+body {
     font-family: 'Segoe UI', sans-serif;
     background: radial-gradient(circle at top, #ffd6e8, #ff9acb);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
     text-align: center;
 }
 
-/* ===== ลายเครือไม้รอบขอบ ===== */
+/* ลายดอกไม้พื้นหลัง */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
-    background:
-      url("https://www.transparenttextures.com/patterns/flowers.png");
+    background: url("https://www.transparenttextures.com/patterns/flowers.png");
     opacity: 0.18;
     pointer-events: none;
 }
@@ -49,35 +66,31 @@ button {
     color: white;
     cursor: pointer;
 }
-
 button:active { transform: scale(0.92); }
 
-/* ---------- ซอง ---------- */
+/* ซอง */
 #envelope {
     font-size: 6em;
     animation: bounce 2s infinite;
 }
-
 @keyframes bounce {
     0%,100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
 }
-
 #plead { font-size: 2.5em; }
 
-/* ---------- Loading ---------- */
+/* Loading */
 #loading {
     font-size: 2em;
     animation: pulse 1.2s infinite;
 }
-
 @keyframes pulse {
     0% { opacity: 0.3; }
     50% { opacity: 1; }
     100% { opacity: 0.3; }
 }
 
-/* ---------- กรอบจดหมาย ---------- */
+/* กรอบจดหมาย */
 .letter-box {
     background: repeating-linear-gradient(
         45deg,
@@ -101,11 +114,11 @@ button:active { transform: scale(0.92); }
     min-height: 220px;
 }
 
-/* ---------- ป้ายครบรอบ ---------- */
+/* ป้ายครบรอบ */
 #banner {
     position: fixed;
-    top: 16px;
-    background: rgba(255,255,255,0.85);
+    top: 18px;
+    background: rgba(255,255,255,0.9);
     color: #ff4d88;
     padding: 10px 26px;
     border-radius: 30px;
@@ -113,20 +126,18 @@ button:active { transform: scale(0.92); }
     box-shadow: 0 6px 20px rgba(255,77,136,0.3);
     animation: slideDown 0.8s ease forwards;
 }
-
 @keyframes slideDown {
     from { transform: translateY(-40px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* ---------- หัวใจจาง ---------- */
+/* หัวใจจาง */
 .heart-soft {
     position: absolute;
     font-size: 1.6em;
     opacity: 0.4;
     animation: floatSoft 4s linear forwards;
 }
-
 @keyframes floatSoft {
     from { transform: translateY(0); opacity: 0.4; }
     to { transform: translateY(-180px); opacity: 0; }
@@ -165,6 +176,7 @@ button:active { transform: scale(0.92); }
 </div>
 
 <audio id="typeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-keyboard-typing-1386.mp3"></audio>
+<audio id="squishSound" src="https://assets.mixkit.co/sfx/preview/mixkit-squeeze-toy-3034.mp3"></audio>
 
 <script>
 let refuseCount = 0;
@@ -172,11 +184,9 @@ const pleadEmojis = ["🥺👉👈","😖💗 เปิดเถอะน้า�
 
 function notYet(){
     refuseCount++;
-    document.getElementById("plead").innerHTML =
-      pleadEmojis[Math.min(refuseCount-1,2)];
+    plead.innerHTML = pleadEmojis[Math.min(refuseCount-1,2)];
     if(refuseCount>=2){
-        document.getElementById("buttons").innerHTML =
-          '<button onclick="openLetter()">เปิด 💖</button>';
+        buttons.innerHTML = '<button onclick="openLetter()">เปิด 💖</button>';
     }
 }
 
@@ -200,44 +210,46 @@ const message = [
 ];
 
 let line=0,char=0;
-const textDiv=document.getElementById("text");
 const sound=document.getElementById("typeSound");
 sound.volume=0.12;
 
 function typeWriter(){
  if(line<message.length){
   if(char<message[line].length){
-   textDiv.innerHTML+=message[line].charAt(char++);
+   text.innerHTML+=message[line].charAt(char++);
    sound.currentTime=0; sound.play();
    setTimeout(typeWriter,50);
   } else {
-   textDiv.innerHTML+="<br>";
+   text.innerHTML+="<br>";
    line++; char=0;
    setTimeout(typeWriter,400);
   }
- } else {
-   showBanner();
- }
+ } else showBanner();
 }
 
 function showBanner(){
+ if(document.getElementById("banner")) return;
  const b=document.createElement("div");
  b.id="banner";
  b.innerText="สุขสันต์วันครบรอบนะค้าบที่ร๊ากก 💖";
  document.body.appendChild(b);
 
- for(let i=0;i<8;i++){
+ setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart-soft";
-  h.innerHTML="🤍";
-  h.style.left=Math.random()*100+"vw";
+  h.innerHTML=["🤍","💗","💖"][Math.floor(Math.random()*3)];
+  h.style.left=(45+Math.random()*10)+"%";
   h.style.bottom="60px";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),4000);
- }
+ },900);
 }
 
-function loveBack(){ showBanner(); }
+function loveBack(){
+ const s=document.getElementById("squishSound");
+ s.volume=0.15; s.currentTime=0; s.play();
+ showBanner();
+}
 </script>
 
 </body>
